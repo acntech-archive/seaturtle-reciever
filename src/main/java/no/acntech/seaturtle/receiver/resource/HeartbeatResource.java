@@ -1,10 +1,12 @@
 package no.acntech.seaturtle.receiver.resource;
 
+import no.acntech.seaturtle.receiver.TestBean;
 import no.acntech.seaturtle.receiver.message.Heartbeat;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/heartbeat")
@@ -24,12 +25,13 @@ public class HeartbeatResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatResource.class);
 
-    //@Inject
-    //private HeartbeatMessageBuffer messageBuffer;
+    @Inject
+    private TestBean messageBuffer;
 
     @GET
     public List<Heartbeat> listEvents() {
-        return new ArrayList<>(); //messageBuffer.list();
+        LOGGER.info("Retrieving heartbeat events");
+        return messageBuffer.list();
     }
 
     @POST
