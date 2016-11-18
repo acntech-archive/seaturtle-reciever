@@ -20,17 +20,6 @@
 
     <!-- DEPENDENCIES -->
     <dependencies>
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-
         <!-- Vert.x -->
         <dependency>
             <groupId>io.vertx</groupId>
@@ -54,7 +43,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>no.acntech.seaturtle.receiver.App</mainClass>
+                            <mainClass>no.acntech.seaturtle.receiver.WebApp</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,10 +1,14 @@
 package no.acntech.seaturtle.receiver.resource;
 
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
+import no.acntech.seaturtle.receiver.domain.hateoas.HateoasRoot;
+import no.acntech.seaturtle.receiver.domain.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static no.acntech.seaturtle.receiver.util.Header.APPLICATION_JSON;
 import static no.acntech.seaturtle.receiver.util.Header.CONTENT_TYPE;
@@ -58,13 +62,15 @@ public abstract class AbstractResource implements Resource {
         int statusCode = 501;
         logHTTPMethod(routingContext, statusCode);
         String responseText = "501 Not Implemented";
-        sendText(routingContext.response().setStatusCode(statusCode), responseText);
+        routingContext.response().setStatusCode(statusCode);
+        sendText(routingContext, responseText);
     }
 
     protected void sendHttp201(RoutingContext routingContext, Object json) {
         int statusCode = 201;
         logHTTPMethod(routingContext, statusCode);
-        sendJson(routingContext.response().setStatusCode(statusCode), json);
+        routingContext.response().setStatusCode(statusCode);
+        sendHateoasJson(routingContext, json);
     }
 
     protected <T> T readJson(RoutingContext routingContext, Class<T> clazz) {
@@ -73,12 +79,20 @@ public abstract class AbstractResource implements Resource {
         return Json.decodeValue(requestBody, clazz);
     }
 
-    protected void sendJson(HttpServerResponse response, Object json) {
-        response.putHeader(CONTENT_TYPE, APPLICATION_JSON).end(Json.encodePrettily(json));
+    protected void sendJson(RoutingContext routingContext, Object json) {
+        routingContext.response().putHeader(CONTENT_TYPE, APPLICATION_JSON).end(Json.encodePrettily(json));
     }
 
-    protected void sendText(HttpServerResponse response, Object text) {
-        response.putHeader(CONTENT_TYPE, TEXT_PLAIN).end(text.toString());
+    protected void sendHateoasJson(RoutingContext routingContext, Object json) {
+        String uri = routingContext.request().absoluteURI();
+        List<Link> links = new ArrayList<>();
+        links.add(new Link("self", uri));
+        HateoasRoot root = new HateoasRoot(json, links);
+        routingContext.response().putHeader(CONTENT_TYPE, APPLICATION_JSON).end(Json.encodePrettily(root));
+    }
+
+    protected void sendText(RoutingContext routingContext, Object text) {
+        routingContext.response().putHeader(CONTENT_TYPE, TEXT_PLAIN).end(text.toString());
     }
 
     private void logHTTPMethod(RoutingContext routingContext, int statusCode) {

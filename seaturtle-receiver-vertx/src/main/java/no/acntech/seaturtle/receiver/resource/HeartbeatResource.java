@@ -1,7 +1,7 @@
 package no.acntech.seaturtle.receiver.resource;
 
 import io.vertx.ext.web.RoutingContext;
-import no.acntech.seaturtle.receiver.message.Heartbeat;
+import no.acntech.seaturtle.receiver.domain.Heartbeat;
 import no.acntech.seaturtle.receiver.storage.HeartbeatMessageBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public class HeartbeatResource extends AbstractResource {
     public void getAll(RoutingContext routingContext) {
         LOGGER.debug("Getting heartbeats");
         List<Heartbeat> heartbeats = MESSAGE_BUFFER.list();
-        sendJson(routingContext.response(), heartbeats);
+        sendJson(routingContext, heartbeats);
     }
 
     @Override

@@ -30,7 +30,8 @@
 
     <!-- MODULES -->
     <modules>
-        <module>seaturtle-receiver-cdi</module>
+        <module>seaturtle-receiver-jaxrs</module>
+        <module>seaturtle-receiver-spring</module>
         <module>seaturtle-receiver-vertx</module>
     </modules>
 
@@ -46,6 +47,17 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <!-- Test scope -->
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
 

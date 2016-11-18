@@ -1,0 +1,54 @@
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /seaturtle/api/heartbeat
+Document Length:        2263 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.496 seconds
+Complete requests:      1000
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      2382000 bytes
+HTML transferred:       2263000 bytes
+Requests per second:    2016.51 [#/sec] (mean)
+Time per request:       4.959 [ms] (mean)
+Time per request:       0.496 [ms] (mean, across all concurrent requests)
+Transfer rate:          4690.75 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   1.0      0      12
+Processing:     1    4   2.8      4      23
+Waiting:        0    4   2.7      3      23
+Total:          1    5   2.9      4      23
+
+Percentage of the requests served within a certain time (ms)
+  50%      4
+  66%      5
+  75%      6
+  80%      6
+  90%      8
+  95%     10
+  98%     13
+  99%     21
+ 100%     23 (longest request)

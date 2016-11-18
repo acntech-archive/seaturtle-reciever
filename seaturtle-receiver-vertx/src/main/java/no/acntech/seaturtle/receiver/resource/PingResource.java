@@ -1,7 +1,7 @@
 package no.acntech.seaturtle.receiver.resource;
 
 import io.vertx.ext.web.RoutingContext;
-import no.acntech.seaturtle.receiver.message.Ping;
+import no.acntech.seaturtle.receiver.domain.Ping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +12,6 @@ public class PingResource extends AbstractResource {
     @Override
     public void getAll(RoutingContext routingContext) {
         LOGGER.debug("Ping received");
-        sendJson(routingContext.response(), new Ping());
+        sendJson(routingContext, new Ping());
     }
 }
