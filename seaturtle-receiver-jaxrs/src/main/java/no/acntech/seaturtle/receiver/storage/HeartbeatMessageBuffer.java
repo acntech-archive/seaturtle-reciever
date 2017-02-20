@@ -1,6 +1,7 @@
 package no.acntech.seaturtle.receiver.storage;
 
-import no.acntech.seaturtle.receiver.message.Heartbeat;
+
+import no.acntech.seaturtle.receiver.domain.Heartbeat;
 
 import javax.inject.Singleton;
 

@@ -30,6 +30,9 @@
 
     <!-- MODULES -->
     <modules>
+        <module>seaturtle-receiver-domain</module>
+        <module>seaturtle-receiver-common</module>
+        <module>seaturtle-receiver-kafka</module>
         <module>seaturtle-receiver-jaxrs</module>
         <module>seaturtle-receiver-spring</module>
         <module>seaturtle-receiver-vertx</module>
@@ -120,6 +123,25 @@
                 <artifactId>mockito-all</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Project -->
+            <dependency>
+                <groupId>no.acntech.seaturtle</groupId>
+                <artifactId>seaturtle-receiver-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>no.acntech.seaturtle</groupId>
+                <artifactId>seaturtle-receiver-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>no.acntech.seaturtle</groupId>
+                <artifactId>seaturtle-receiver-kafka</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

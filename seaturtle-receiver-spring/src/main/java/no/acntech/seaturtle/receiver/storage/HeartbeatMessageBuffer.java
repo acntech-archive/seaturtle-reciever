@@ -1,8 +1,9 @@
 package no.acntech.seaturtle.receiver.storage;
 
-import no.acntech.seaturtle.receiver.message.Heartbeat;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import no.acntech.seaturtle.receiver.domain.Heartbeat;
+import org.springframework.stereotype.Component;
+
+@Component
 public class HeartbeatMessageBuffer extends MessageBuffer<Heartbeat> {
 }

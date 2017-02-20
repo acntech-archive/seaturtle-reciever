@@ -33,6 +33,17 @@
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
         </dependency>
+
+        <!-- Project -->
+        <dependency>
+            <groupId>no.acntech.seaturtle</groupId>
+            <artifactId>seaturtle-receiver-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.acntech.seaturtle</groupId>
+            <artifactId>seaturtle-receiver-common</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

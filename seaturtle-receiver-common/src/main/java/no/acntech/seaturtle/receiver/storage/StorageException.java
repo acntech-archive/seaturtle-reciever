@@ -1,6 +1,8 @@
 package no.acntech.seaturtle.receiver.storage;
 
-public class StorageException extends RuntimeException {
+import no.acntech.seaturtle.SeaturtleException;
+
+public class StorageException extends SeaturtleException {
 
     public StorageException() {
     }

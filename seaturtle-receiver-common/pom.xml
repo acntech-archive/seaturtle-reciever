@@ -10,36 +10,18 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>seaturtle-receiver-spring</artifactId>
+    <artifactId>seaturtle-receiver-common</artifactId>
 
     <!-- PROPERTIES -->
     <properties>
-        <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
     </properties>
 
     <!-- DEPENDENCIES -->
     <dependencies>
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-
         <!-- Project -->
         <dependency>
             <groupId>no.acntech.seaturtle</groupId>
             <artifactId>seaturtle-receiver-domain</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>no.acntech.seaturtle</groupId>
-            <artifactId>seaturtle-receiver-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>no.acntech.seaturtle</groupId>
-            <artifactId>seaturtle-receiver-kafka</artifactId>
         </dependency>
     </dependencies>
 </project>

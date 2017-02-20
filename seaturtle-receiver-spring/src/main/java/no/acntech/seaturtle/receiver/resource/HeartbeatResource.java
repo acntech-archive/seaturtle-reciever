@@ -1,6 +1,6 @@
 package no.acntech.seaturtle.receiver.resource;
 
-import no.acntech.seaturtle.receiver.message.Heartbeat;
+import no.acntech.seaturtle.receiver.domain.Heartbeat;
 import no.acntech.seaturtle.receiver.storage.HeartbeatMessageBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +41,7 @@ public class HeartbeatResource {
     @ResponseStatus(HttpStatus.CREATED)
     public Heartbeat post(@RequestBody @Valid final Heartbeat heartbeat) throws InterruptedException {
         LOGGER.info("Heartbeat event received: {}", heartbeat);
-        return messageBuffer.put(heartbeat);
+        messageBuffer.put(heartbeat);
+        return heartbeat;
     }
 }

@@ -1,6 +1,6 @@
 package no.acntech.seaturtle.receiver.resource;
 
-import no.acntech.seaturtle.receiver.message.Heartbeat;
+import no.acntech.seaturtle.receiver.domain.Heartbeat;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

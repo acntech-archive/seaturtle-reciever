@@ -84,5 +84,16 @@
             <artifactId>javaee-web-api</artifactId>
             <!-- provided -->
         </dependency>
+
+        <!-- Project -->
+        <dependency>
+            <groupId>no.acntech.seaturtle</groupId>
+            <artifactId>seaturtle-receiver-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.acntech.seaturtle</groupId>
+            <artifactId>seaturtle-receiver-common</artifactId>
+        </dependency>
     </dependencies>
 </project>

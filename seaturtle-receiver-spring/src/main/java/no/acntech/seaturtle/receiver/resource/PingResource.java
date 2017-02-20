@@ -1,6 +1,6 @@
 package no.acntech.seaturtle.receiver.resource;
 
-import no.acntech.seaturtle.receiver.message.Ping;
+import no.acntech.seaturtle.receiver.domain.Ping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
