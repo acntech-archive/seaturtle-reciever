@@ -14,7 +14,9 @@
 
     <!-- PROPERTIES -->
     <properties>
+        <scala.binary.version>2.11</scala.binary.version>
         <kafka.version>0.10.1.1</kafka.version>
+        <spark.version>1.6.3</spark.version>
     </properties>
 
     <!-- DEPENDENCIES -->
@@ -24,6 +26,25 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>${kafka.version}</version>
+        </dependency>
+
+        <!-- Spark -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
         </dependency>
 
         <!-- Project -->
