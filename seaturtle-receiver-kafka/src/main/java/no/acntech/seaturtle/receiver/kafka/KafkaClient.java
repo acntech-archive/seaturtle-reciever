@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public abstract class KafkaClient {
 
@@ -20,5 +22,13 @@ public abstract class KafkaClient {
         } catch (IOException e) {
             throw new KafkaException("Unable to read kafka properties", e);
         }
+    }
+
+    protected Map<String, String> readConfig(String propertiesFileName) {
+        return readProperties(propertiesFileName)
+                .entrySet()
+                .stream()
+                .collect(Collectors
+                        .toMap(e -> String.valueOf(e.getKey()), e -> String.valueOf(e.getValue())));
     }
 }

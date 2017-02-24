@@ -1,0 +1,10 @@
+{
+   "namespace": "no.acntech.seaturtle.receiver.domain.avro",
+   "type": "record",
+   "name": "Heartbeat",
+   "fields": [
+      {"name": "timestamp", "type": "string"},
+      {"name": "remote", "type": "string"},
+      {"name": "event", "type": "string"}
+   ]
+}

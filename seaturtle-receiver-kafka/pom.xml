@@ -17,6 +17,7 @@
         <scala.binary.version>2.11</scala.binary.version>
         <kafka.version>0.10.1.1</kafka.version>
         <spark.version>1.6.3</spark.version>
+        <avro.version>1.8.1</avro.version>
     </properties>
 
     <!-- DEPENDENCIES -->
@@ -47,6 +48,13 @@
             <version>${spark.version}</version>
         </dependency>
 
+        <!-- Avro -->
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>${avro.version}</version>
+        </dependency>
+
         <!-- Project -->
         <dependency>
             <groupId>no.acntech.seaturtle</groupId>
@@ -58,4 +66,24 @@
             <artifactId>seaturtle-receiver-common</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

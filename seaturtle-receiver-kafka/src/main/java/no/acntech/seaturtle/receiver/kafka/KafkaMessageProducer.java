@@ -1,0 +1,33 @@
+package no.acntech.seaturtle.receiver.kafka;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.Serializer;
+
+import java.util.Properties;
+import java.util.stream.IntStream;
+
+public abstract class KafkaMessageProducer<K, V> extends KafkaClient {
+
+    private static final String PRODUCER_PROPERTIES_FILE = "producer.properties";
+
+    protected void produceRecords(String topic, int messageCount) {
+        Properties properties = readProperties(PRODUCER_PROPERTIES_FILE);
+
+        try (KafkaProducer<K, V> producer = new KafkaProducer<>(properties, createKeySerializer(), createValueSerializer())) {
+            logger.info("Starting to produce {} records...", messageCount);
+            long startMillis = System.currentTimeMillis();
+            IntStream.range(0, messageCount).forEach(i -> producer.send(createRecord(topic, i)));
+            long usedMillis = System.currentTimeMillis() - startMillis;
+            logger.info("Finished production of {} records {}ms", messageCount, usedMillis);
+        } catch (Throwable t) {
+            throw new KafkaException("Unable to send messages", t);
+        }
+    }
+
+    protected abstract ProducerRecord<K, V> createRecord(String topic, int i);
+
+    protected abstract Serializer<K> createKeySerializer();
+
+    protected abstract Serializer<V> createValueSerializer();
+}
