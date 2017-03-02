@@ -14,7 +14,7 @@ public class KafkaSingleThreadedMessageProducer extends KafkaMessageProducer<Str
     }
 
     @Override
-    protected ProducerRecord<String, String> createRecord(String topic, int i) {
+    protected ProducerRecord<String, String> produceRecord(String topic, int i) {
         return new ProducerRecord<>(topic, "Key " + i, "Value " + i);
     }
 

@@ -19,7 +19,7 @@ public class KafkaSingleThreadedAvroMessageProducer extends KafkaMessageProducer
     }
 
     @Override
-    protected ProducerRecord<String, Heartbeat> createRecord(String topic, int i) {
+    protected ProducerRecord<String, Heartbeat> produceRecord(String topic, int i) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
         ZonedDateTime dateTime = ZonedDateTime.now();
         Heartbeat heartbeat = Heartbeat.newBuilder()

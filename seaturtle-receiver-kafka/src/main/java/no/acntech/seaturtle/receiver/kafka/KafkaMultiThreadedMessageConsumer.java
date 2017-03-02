@@ -1,5 +1,8 @@
 package no.acntech.seaturtle.receiver.kafka;
 
+import org.apache.kafka.common.serialization.Deserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
@@ -30,6 +33,16 @@ public class KafkaMultiThreadedMessageConsumer {
         @Override
         public void run() {
             consumeRecords();
+        }
+
+        @Override
+        protected Deserializer<String> createKeyDeserializer() {
+            return new StringDeserializer();
+        }
+
+        @Override
+        protected Deserializer<String> createValueDeserializer() {
+            return new StringDeserializer();
         }
     }
 }

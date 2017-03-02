@@ -4,6 +4,7 @@ import no.acntech.seaturtle.SeaturtleException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.Deserializer;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -37,13 +38,13 @@ public abstract class KafkaMessageConsumer<K, V> extends KafkaClient {
                 } else {
                     timeouts = 0;
                     sleepMillis = 0;
-                    records.forEach(this::interpretRecord);
+                    records.forEach(this::consumeRecord);
                 }
             }
         }
     }
 
-    private V interpretRecord(ConsumerRecord<K, V> record) {
+    private V consumeRecord(ConsumerRecord<K, V> record) {
         logger.info("--- Topic: {}, Partition: {}, Offset: {}, Key: {}, Value: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value());
         return record.value();
     }
@@ -68,8 +69,12 @@ public abstract class KafkaMessageConsumer<K, V> extends KafkaClient {
     private KafkaConsumer<K, V> createKafkaConsumer(Properties properties, String... topicNames) {
         Set<String> topics = Arrays.stream(topicNames).collect(Collectors.toSet());
         logger.info("Staring consuming messages from topics {}", topics.toString());
-        KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
+        KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties, createKeyDeserializer(), createValueDeserializer());
         consumer.subscribe(topics);
         return consumer;
     }
+
+    protected abstract Deserializer<K> createKeyDeserializer();
+
+    protected abstract Deserializer<V> createValueDeserializer();
 }

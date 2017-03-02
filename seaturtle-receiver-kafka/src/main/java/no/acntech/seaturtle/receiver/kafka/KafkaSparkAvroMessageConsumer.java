@@ -40,13 +40,13 @@ public class KafkaSparkAvroMessageConsumer extends KafkaClient implements Serial
         SparkConf conf = new SparkConf().setAppName(this.getClass().getSimpleName()).setMaster("local[*]");
         try (JavaStreamingContext ssc = new JavaStreamingContext(new JavaSparkContext(conf), new Duration(2000))) {
             JavaPairInputDStream<String, Heartbeat> directKafkaStream = KafkaUtils.createDirectStream(ssc, String.class, Heartbeat.class, StringDecoder.class, HeartbeatDecoder.class, config, topics);
-            directKafkaStream.foreachRDD(this::receiveRDD);
+            directKafkaStream.foreachRDD(this::consumeRecord);
             ssc.start();
             ssc.awaitTermination();
         }
     }
 
-    private void receiveRDD(JavaPairRDD<String, Heartbeat> rdd) {
+    private void consumeRecord(JavaPairRDD<String, Heartbeat> rdd) {
         logger.info("--- New RDD with {} partitions and {} records", rdd.partitions().size(), rdd.count());
         rdd.foreach(record -> {
             logger.info("--- Key: {}, Value: timestamp={} event={} remote={}", record._1, record._2.getTimestamp(), record._2.getEvent(), record._2.getRemote());

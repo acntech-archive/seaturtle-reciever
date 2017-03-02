@@ -17,7 +17,7 @@ public abstract class KafkaMessageProducer<K, V> extends KafkaClient {
         try (KafkaProducer<K, V> producer = new KafkaProducer<>(properties, createKeySerializer(), createValueSerializer())) {
             logger.info("Starting to produce {} records...", messageCount);
             long startMillis = System.currentTimeMillis();
-            IntStream.range(0, messageCount).forEach(i -> producer.send(createRecord(topic, i)));
+            IntStream.range(0, messageCount).forEach(i -> producer.send(produceRecord(topic, i)));
             long usedMillis = System.currentTimeMillis() - startMillis;
             logger.info("Finished production of {} records {}ms", messageCount, usedMillis);
         } catch (Throwable t) {
@@ -25,7 +25,7 @@ public abstract class KafkaMessageProducer<K, V> extends KafkaClient {
         }
     }
 
-    protected abstract ProducerRecord<K, V> createRecord(String topic, int i);
+    protected abstract ProducerRecord<K, V> produceRecord(String topic, int i);
 
     protected abstract Serializer<K> createKeySerializer();
 

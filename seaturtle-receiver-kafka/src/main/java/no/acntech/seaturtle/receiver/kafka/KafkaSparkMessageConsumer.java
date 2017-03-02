@@ -19,28 +19,29 @@ public class KafkaSparkMessageConsumer extends KafkaClient implements Serializab
 
     private static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
     private static final String TOPIC = "heartbeat";
+    private final String[] topicNames;
 
     private KafkaSparkMessageConsumer(String... topicNames) {
-        Set<String> topics = Arrays.stream(topicNames).collect(Collectors.toSet());
-        consumeRecords(topics);
+        this.topicNames = topicNames;
     }
 
     public static void main(String[] args) throws Exception {
-        new KafkaSparkMessageConsumer(TOPIC);
+        new KafkaSparkMessageConsumer(TOPIC).consumeRecords();
     }
 
-    private void consumeRecords(Set<String> topics) {
+    private void consumeRecords() {
+        Set<String> topics = Arrays.stream(topicNames).collect(Collectors.toSet());
         Map<String, String> config = readConfig(CONSUMER_PROPERTIES_FILE);
         SparkConf conf = new SparkConf().setAppName(this.getClass().getSimpleName()).setMaster("local[*]");
         try (JavaStreamingContext ssc = new JavaStreamingContext(new JavaSparkContext(conf), new Duration(2000))) {
             JavaPairInputDStream<String, String> directKafkaStream = KafkaUtils.createDirectStream(ssc, String.class, String.class, StringDecoder.class, StringDecoder.class, config, topics);
-            directKafkaStream.foreachRDD(this::receiveRDD);
+            directKafkaStream.foreachRDD(this::consumeRecord);
             ssc.start();
             ssc.awaitTermination();
         }
     }
 
-    private void receiveRDD(JavaPairRDD<String, String> rdd) {
+    private void consumeRecord(JavaPairRDD<String, String> rdd) {
         logger.info("--- New RDD with {} partitions and {} records", rdd.partitions().size(), rdd.count());
         rdd.foreach(record -> {
             logger.info("--- Key: {}, Value: {}", record._1, record._2);
