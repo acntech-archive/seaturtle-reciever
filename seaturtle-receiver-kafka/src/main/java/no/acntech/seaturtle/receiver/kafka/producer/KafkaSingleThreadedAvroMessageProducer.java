@@ -1,4 +1,4 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.producer;
 
 import no.acntech.seaturtle.receiver.domain.avro.Heartbeat;
 import no.acntech.seaturtle.receiver.kafka.serializer.GenericAvroSerializer;
@@ -13,10 +13,6 @@ public class KafkaSingleThreadedAvroMessageProducer extends KafkaMessageProducer
 
     private static final String TOPIC = "heartbeat";
     private static final int RECORD_COUNT = 100;
-
-    public static void main(String[] args) throws Exception {
-        new KafkaSingleThreadedAvroMessageProducer().produceRecords(TOPIC, RECORD_COUNT);
-    }
 
     @Override
     protected ProducerRecord<String, Heartbeat> produceRecord(String topic, int i) {
@@ -38,5 +34,9 @@ public class KafkaSingleThreadedAvroMessageProducer extends KafkaMessageProducer
     @Override
     protected Serializer<Heartbeat> createValueSerializer() {
         return new GenericAvroSerializer<>();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new KafkaSingleThreadedAvroMessageProducer().produceRecords(TOPIC, RECORD_COUNT);
     }
 }

@@ -1,4 +1,6 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.serializer;
+
+import no.acntech.seaturtle.receiver.kafka.KafkaException;
 
 public class KafkaSerializationException extends KafkaException {
 

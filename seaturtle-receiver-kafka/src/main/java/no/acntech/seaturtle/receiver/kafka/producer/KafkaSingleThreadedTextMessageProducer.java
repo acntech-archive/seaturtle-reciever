@@ -1,17 +1,13 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.producer;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-public class KafkaSingleThreadedMessageProducer extends KafkaMessageProducer<String, String> {
+public class KafkaSingleThreadedTextMessageProducer extends KafkaMessageProducer<String, String> {
 
     private static final String TOPIC = "heartbeat";
     private static final int RECORD_COUNT = 1000000;
-
-    public static void main(String[] args) throws Exception {
-        new KafkaSingleThreadedMessageProducer().produceRecords(TOPIC, RECORD_COUNT);
-    }
 
     @Override
     protected ProducerRecord<String, String> produceRecord(String topic, int i) {
@@ -26,5 +22,9 @@ public class KafkaSingleThreadedMessageProducer extends KafkaMessageProducer<Str
     @Override
     protected Serializer<String> createValueSerializer() {
         return new StringSerializer();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new KafkaSingleThreadedTextMessageProducer().produceRecords(TOPIC, RECORD_COUNT);
     }
 }

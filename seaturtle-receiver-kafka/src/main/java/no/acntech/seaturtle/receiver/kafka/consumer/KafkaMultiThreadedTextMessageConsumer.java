@@ -1,4 +1,4 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.consumer;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -8,18 +8,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
-public class KafkaMultiThreadedMessageConsumer {
+public class KafkaMultiThreadedTextMessageConsumer {
 
     private static final String TOPIC = "heartbeat";
     private static final int THREAD_COUNT = 10;
+    private final String[] topicNames;
 
-    private KafkaMultiThreadedMessageConsumer(String... topicNames) {
-        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-        IntStream.rangeClosed(1, THREAD_COUNT).forEach(threadId -> executorService.execute(new ConsumerTask(threadId, topicNames)));
+    private KafkaMultiThreadedTextMessageConsumer(String... topicNames) {
+        this.topicNames = topicNames;
     }
 
-    public static void main(String[] args) throws Exception {
-        new KafkaMultiThreadedMessageConsumer(TOPIC);
+    private void consumeRecords() {
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+        IntStream.rangeClosed(1, THREAD_COUNT).forEach(threadId -> executorService.execute(new ConsumerTask(threadId, topicNames)));
     }
 
     class ConsumerTask extends KafkaMessageConsumer<String, String, String> implements Runnable {
@@ -51,5 +52,9 @@ public class KafkaMultiThreadedMessageConsumer {
         protected Deserializer<String> createValueDeserializer() {
             return new StringDeserializer();
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        new KafkaMultiThreadedTextMessageConsumer(TOPIC).consumeRecords();
     }
 }

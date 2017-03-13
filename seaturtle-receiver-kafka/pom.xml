@@ -56,6 +56,12 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming-kafka_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Avro -->

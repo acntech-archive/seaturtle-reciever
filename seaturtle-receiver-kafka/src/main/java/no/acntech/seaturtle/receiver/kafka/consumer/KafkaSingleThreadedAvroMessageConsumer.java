@@ -1,6 +1,7 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.consumer;
 
 import no.acntech.seaturtle.receiver.domain.avro.Heartbeat;
+import no.acntech.seaturtle.receiver.kafka.serializer.KafkaSerializationException;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.specific.SpecificDatumReader;
@@ -15,12 +16,8 @@ public class KafkaSingleThreadedAvroMessageConsumer extends KafkaMessageConsumer
 
     private static final String TOPIC = "heartbeat";
 
-    public KafkaSingleThreadedAvroMessageConsumer(String... topicNames) {
+    private KafkaSingleThreadedAvroMessageConsumer(String... topicNames) {
         super(topicNames);
-    }
-
-    public static void main(String[] args) throws Exception {
-        new KafkaSingleThreadedAvroMessageConsumer(TOPIC).consumeRecords();
     }
 
     @Override
@@ -45,5 +42,9 @@ public class KafkaSingleThreadedAvroMessageConsumer extends KafkaMessageConsumer
     @Override
     protected Deserializer<byte[]> createValueDeserializer() {
         return new ByteArrayDeserializer();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new KafkaSingleThreadedAvroMessageConsumer(TOPIC).consumeRecords();
     }
 }

@@ -1,7 +1,6 @@
 package no.acntech.seaturtle.receiver.kafka.serializer;
 
 import kafka.serializer.Encoder;
-import no.acntech.seaturtle.receiver.kafka.KafkaSerializationException;
 import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.io.EncoderFactory;

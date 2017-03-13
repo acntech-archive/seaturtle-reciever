@@ -1,19 +1,15 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.consumer;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-public class KafkaSingleThreadedMessageConsumer extends KafkaMessageConsumer<String, String, String> {
+public class KafkaSingleThreadedTextMessageConsumer extends KafkaMessageConsumer<String, String, String> {
 
     private static final String TOPIC = "heartbeat";
 
-    public KafkaSingleThreadedMessageConsumer(String... topicNames) {
+    private KafkaSingleThreadedTextMessageConsumer(String... topicNames) {
         super(topicNames);
-    }
-
-    public static void main(String[] args) throws Exception {
-        new KafkaSingleThreadedMessageConsumer(TOPIC).consumeRecords();
     }
 
     @Override
@@ -30,5 +26,9 @@ public class KafkaSingleThreadedMessageConsumer extends KafkaMessageConsumer<Str
     @Override
     protected Deserializer<String> createValueDeserializer() {
         return new StringDeserializer();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new KafkaSingleThreadedTextMessageConsumer(TOPIC).consumeRecords();
     }
 }

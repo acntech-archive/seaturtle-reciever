@@ -1,6 +1,7 @@
-package no.acntech.seaturtle.receiver.kafka;
+package no.acntech.seaturtle.receiver.kafka.consumer;
 
 import no.acntech.seaturtle.SeaturtleException;
+import no.acntech.seaturtle.receiver.kafka.KafkaClient;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -27,7 +28,7 @@ public abstract class KafkaMessageConsumer<K, V, R> extends KafkaClient {
         this.topicNames = topicNames;
     }
 
-    public void consumeRecords() {
+    protected void consumeRecords() {
         Properties properties = readProperties(CONSUMER_PROPERTIES_FILE);
         logger.info("Connecting to Kafka servers...", properties.getProperty("bootstrap.servers"));
         try (KafkaConsumer<K, V> consumer = createKafkaConsumer(properties, topicNames)) {
