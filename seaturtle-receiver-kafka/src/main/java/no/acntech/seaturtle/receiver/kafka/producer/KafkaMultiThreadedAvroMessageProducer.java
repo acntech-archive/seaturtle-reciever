@@ -15,8 +15,8 @@ import java.util.stream.IntStream;
 public class KafkaMultiThreadedAvroMessageProducer {
 
     private static final String TOPIC = "heartbeat";
-    private static final int THREAD_COUNT = 100;
-    private static final int RECORD_COUNT = 1000;
+    private static final int THREAD_COUNT = 10;
+    private static final int RECORD_COUNT = 10000;
 
     private void produceRecords(String topicName, int recordCount) {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);

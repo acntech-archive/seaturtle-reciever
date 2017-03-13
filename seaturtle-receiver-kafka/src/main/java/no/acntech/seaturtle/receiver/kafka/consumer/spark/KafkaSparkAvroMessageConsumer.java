@@ -18,13 +18,13 @@ public class KafkaSparkAvroMessageConsumer extends KafkaSparkMessageConsumer<Str
     @Override
     protected void consumeRecord(JavaPairRDD<String, Heartbeat> rdd) {
         if (rdd.count() > 0) {
-            logger.debug("--- Starting consumption of {} RDDs from {} partitions", rdd.count(), rdd.partitions().size());
+            logger.debug("Starting consumption of {} RDDs from {} partitions", rdd.count(), rdd.partitions().size());
         } else {
-            logger.trace("--- No RDDs from {} partitions", rdd.partitions().size());
+            logger.trace("No RDDs from {} partitions", rdd.partitions().size());
         }
-        rdd.foreach(record -> logger.trace("--- Key: {}, Value: timestamp={} event={} remote={}", record._1, record._2.getTimestamp(), record._2.getEvent(), record._2.getRemote()));
+        rdd.foreach(record -> logger.trace("Key: {}, Value: timestamp={} event={} remote={}", record._1, record._2.getTimestamp(), record._2.getEvent(), record._2.getRemote()));
         if (rdd.count() > 0) {
-            logger.debug("--- Completed consumption of {} RDDs from {} partitions", rdd.count(), rdd.partitions().size());
+            logger.debug("Completed consumption of {} RDDs from {} partitions", rdd.count(), rdd.partitions().size());
         }
     }
 

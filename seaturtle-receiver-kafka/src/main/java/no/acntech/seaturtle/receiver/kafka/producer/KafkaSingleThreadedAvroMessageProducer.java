@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class KafkaSingleThreadedAvroMessageProducer extends KafkaMessageProducer<String, Heartbeat> {
 
     private static final String TOPIC = "heartbeat";
-    private static final int RECORD_COUNT = 100;
+    private static final int RECORD_COUNT = 100000;
 
     @Override
     protected ProducerRecord<String, Heartbeat> produceRecord(String topic, int i) {

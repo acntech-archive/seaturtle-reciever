@@ -39,7 +39,7 @@ public class KafkaMultiThreadedTextMessageConsumer {
 
         @Override
         protected String consumeRecord(ConsumerRecord<String, String> record) {
-            logger.info("--- Topic: {}, Partition: {}, Offset: {}, Key: {}, Value: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value());
+            logger.info("Topic: {}, Partition: {}, Offset: {}, Key: {}, Value: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value());
             return record.value();
         }
 

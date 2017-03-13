@@ -22,12 +22,12 @@ public class KafkaSingleThreadedAvroMessageConsumer extends KafkaMessageConsumer
 
     @Override
     protected Heartbeat consumeRecord(ConsumerRecord<String, byte[]> record) {
-        logger.trace("--- Topic: {}, Partition: {}, Offset: {}, Key: {}, Value Length: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value().length);
+        logger.trace("Topic: {}, Partition: {}, Offset: {}, Key: {}, Value Length: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value().length);
         try {
             SpecificDatumReader<Heartbeat> reader = new SpecificDatumReader<>(Heartbeat.getClassSchema());
             Decoder decoder = DecoderFactory.get().binaryDecoder(record.value(), null);
             Heartbeat message = reader.read(null, decoder);
-            logger.info("--- Key: {}, Value: timestamp={} event={} remote={}", record.key(), message.getTimestamp(), message.getEvent(), message.getRemote());
+            logger.trace("Key: {}, Value: timestamp={} event={} remote={}", record.key(), message.getTimestamp(), message.getEvent(), message.getRemote());
             return message;
         } catch (IOException e) {
             throw new KafkaSerializationException("Could not decode Avro message", e);

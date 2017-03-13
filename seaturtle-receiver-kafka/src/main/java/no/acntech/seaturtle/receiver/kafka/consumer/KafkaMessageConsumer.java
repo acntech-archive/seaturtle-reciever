@@ -44,6 +44,7 @@ public abstract class KafkaMessageConsumer<K, V, R> extends KafkaClient {
                     sleepMillis = 0;
                     logger.debug("Started consumption of {} messages", records.count());
                     records.forEach(this::consumeRecord);
+                    logger.debug("Completed consumption of {} messages", records.count());
                 }
             }
         }
