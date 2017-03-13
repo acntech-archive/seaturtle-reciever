@@ -1,33 +1,31 @@
 package no.acntech.seaturtle.receiver.kafka.serializer;
 
 import kafka.serializer.Encoder;
-import kafka.utils.VerifiableProperties;
-import no.acntech.seaturtle.receiver.domain.avro.Heartbeat;
-import no.acntech.seaturtle.receiver.kafka.KafkaException;
+import no.acntech.seaturtle.receiver.kafka.KafkaSerializationException;
 import org.apache.avro.io.BinaryEncoder;
+import org.apache.avro.io.DatumWriter;
 import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.avro.specific.SpecificRecordBase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class HeartbeatEncoder implements Encoder<Heartbeat> {
-
-    public HeartbeatEncoder(VerifiableProperties props) {
-    }
+public class GenericAvroEncoder<T extends SpecificRecordBase> implements Encoder<T> {
 
     @Override
-    public byte[] toBytes(Heartbeat heartbeat) {
-        if (heartbeat == null) {
+    public byte[] toBytes(T message) {
+        if (message == null) {
             return null;
         }
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            SpecificDatumWriter<Heartbeat> writer = new SpecificDatumWriter<>(Heartbeat.getClassSchema());
             BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(outputStream, null);
-            writer.write(heartbeat, encoder);
+            DatumWriter<T> writer = new SpecificDatumWriter<>(message.getSchema());
+            writer.write(message, encoder);
+            encoder.flush();
             return outputStream.toByteArray();
         } catch (IOException e) {
-            throw new KafkaException("Unable to write to encoder", e);
+            throw new KafkaSerializationException("Unable to encoder message", e);
         }
     }
 }

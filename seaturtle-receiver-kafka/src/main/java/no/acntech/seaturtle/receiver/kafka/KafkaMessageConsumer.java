@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-public abstract class KafkaMessageConsumer<K, V> extends KafkaClient {
+public abstract class KafkaMessageConsumer<K, V, R> extends KafkaClient {
 
     private static final String CONSUMER_PROPERTIES_FILE = "consumer.properties";
     private static final int THREAD_COUNT = 10;
@@ -29,24 +29,23 @@ public abstract class KafkaMessageConsumer<K, V> extends KafkaClient {
 
     public void consumeRecords() {
         Properties properties = readProperties(CONSUMER_PROPERTIES_FILE);
+        logger.info("Connecting to Kafka servers...", properties.getProperty("bootstrap.servers"));
         try (KafkaConsumer<K, V> consumer = createKafkaConsumer(properties, topicNames)) {
+            logger.info("Connection successful! Starting consumption from topics {}", Arrays.toString(topicNames));
             while (keepRunning(consumer)) {
                 ConsumerRecords<K, V> records = consumer.poll(POLL_TIMEOUT);
                 if (records.count() == 0) {
                     timeouts++;
+                    logger.trace("No messages received");
                     continueOrSleep();
                 } else {
                     timeouts = 0;
                     sleepMillis = 0;
+                    logger.debug("Started consumption of {} messages", records.count());
                     records.forEach(this::consumeRecord);
                 }
             }
         }
-    }
-
-    private V consumeRecord(ConsumerRecord<K, V> record) {
-        logger.info("--- Topic: {}, Partition: {}, Offset: {}, Key: {}, Value: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value());
-        return record.value();
     }
 
     private boolean keepRunning(KafkaConsumer<K, V> consumer) {
@@ -73,6 +72,8 @@ public abstract class KafkaMessageConsumer<K, V> extends KafkaClient {
         consumer.subscribe(topics);
         return consumer;
     }
+
+    protected abstract R consumeRecord(ConsumerRecord<K, V> record);
 
     protected abstract Deserializer<K> createKeyDeserializer();
 

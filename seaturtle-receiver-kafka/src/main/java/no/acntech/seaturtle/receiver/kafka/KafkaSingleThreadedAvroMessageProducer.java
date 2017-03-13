@@ -1,7 +1,7 @@
 package no.acntech.seaturtle.receiver.kafka;
 
 import no.acntech.seaturtle.receiver.domain.avro.Heartbeat;
-import no.acntech.seaturtle.receiver.kafka.serializer.SpecificRecordSerializer;
+import no.acntech.seaturtle.receiver.kafka.serializer.GenericAvroSerializer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -37,6 +37,6 @@ public class KafkaSingleThreadedAvroMessageProducer extends KafkaMessageProducer
 
     @Override
     protected Serializer<Heartbeat> createValueSerializer() {
-        return new SpecificRecordSerializer<>();
+        return new GenericAvroSerializer<>();
     }
 }

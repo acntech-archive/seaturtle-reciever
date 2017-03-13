@@ -1,5 +1,6 @@
 package no.acntech.seaturtle.receiver.kafka;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
@@ -21,7 +22,7 @@ public class KafkaMultiThreadedMessageConsumer {
         new KafkaMultiThreadedMessageConsumer(TOPIC);
     }
 
-    class ConsumerTask extends KafkaMessageConsumer<String, String> implements Runnable {
+    class ConsumerTask extends KafkaMessageConsumer<String, String, String> implements Runnable {
 
         private final int threadId;
 
@@ -33,6 +34,12 @@ public class KafkaMultiThreadedMessageConsumer {
         @Override
         public void run() {
             consumeRecords();
+        }
+
+        @Override
+        protected String consumeRecord(ConsumerRecord<String, String> record) {
+            logger.info("--- Topic: {}, Partition: {}, Offset: {}, Key: {}, Value: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value());
+            return record.value();
         }
 
         @Override

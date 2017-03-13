@@ -1,9 +1,10 @@
 package no.acntech.seaturtle.receiver.kafka;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-public class KafkaSingleThreadedMessageConsumer extends KafkaMessageConsumer<String, String> {
+public class KafkaSingleThreadedMessageConsumer extends KafkaMessageConsumer<String, String, String> {
 
     private static final String TOPIC = "heartbeat";
 
@@ -13,6 +14,12 @@ public class KafkaSingleThreadedMessageConsumer extends KafkaMessageConsumer<Str
 
     public static void main(String[] args) throws Exception {
         new KafkaSingleThreadedMessageConsumer(TOPIC).consumeRecords();
+    }
+
+    @Override
+    protected String consumeRecord(ConsumerRecord<String, String> record) {
+        logger.info("--- Topic: {}, Partition: {}, Offset: {}, Key: {}, Value: {}", record.topic(), record.partition(), record.offset(), record.key(), record.value());
+        return record.value();
     }
 
     @Override
